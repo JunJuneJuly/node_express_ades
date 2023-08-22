@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>首页</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+</head>
+
+<body>
+  <ul>
+    <% for(var i=0;i<list.length;i++){ %>
+      <li>用户名:
+        <%=list[i].username %> --- 密码:
+          <%=list[i].password %>
+            <a href="/edit/<%= i %>">修改</a>
+            <button data-index="<%= i %>" class="delBtn">删除</button>
+      </li>
+      <% } %>
+  </ul>
+</body>
+<script>
+  let btns = document.getElementsByClassName('delBtn');
+  for (let i = 0; i < btns.length; i++) {
+    btns[i].onclick = function () {
+      const index = $(this).data('index');
+      console.log(index);
+      $.ajax({
+        url: '/deleteuser?index=' + i,
+        success: (res) => {
+          if (res.code == 200) {
+            alert(res.msg)
+            window.location.reload();//重新加载
+          }
+        }
+      })
+    }
+  }
+</script>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>登陆页面</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+</head>
+
+<body>
+  <h3>登陆页面</h3>
+  <!-- action="/dologin" method="post" -->
+  <form id="loginForm">
+    <div>用户名：
+      <input type="text" name="username" id="username">
+    </div>
+    <div>密码：
+      <input type="text" name="password" id="password">
+    </div>
+    <input type="submit" value="登陆">
+  </form>
+</body>
+<script>
+  const headers = {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  };
+  $('#loginForm').submit(function (event) {
+    event.preventDefault();
+
+    $.ajax({
+      url: '/dologin',
+      type: 'post',
+      data: {
+        username: $('#username').val(),
+        password: $('#password').val()
+      },
+      success: (res) => {
+        if (res.code == 200) {
+          window.location.href = '/index'
+        } else {
+          alert('登陆失败!')
+        }
+      }
+    })
+  })
+</script>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+</head>
+
+<body>
+  <h3>注册页面</h3>
+  <form id="registerForm">
+    <div>用户名：
+      <input type="text" name="username" id="username">
+    </div>
+    <div>密码：
+      <input type="text" name="password" id="password">
+    </div>
+    <input type="submit" value="注册">
+  </form>
+  <button id="goLogin">返回登陆页面</button>
+</body>
+<!-- <script src="/javascripts/register.js"></script> -->
+<script>
+  let btn = document.getElementById('goLogin')
+  btn.onclick = () => {
+    window.location.href = '/login'; // 跳转到登录页面
+  }
+  $('#registerForm').submit(function (event) {
+    let username = $('#username').val();
+    let password = $('#password').val();
+    event.preventDefault();//阻止默认行为
+    $.ajax({
+      url: '/doregister?username=' + username + '&password=' + password,
+      type: 'get',
+      success: (res) => {
+        alert('注册成功')
+        $('#username').val('');
+        $('#password').val('');
+      }
+    })
+  })
+</script>
+
+</html>

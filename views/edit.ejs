@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+</head>
+<body>
+    <h3>修改页面</h3>
+    <form id="editForm">
+        <input type="hidden" name="id" id="inphide" value="<%=index%>">
+      <div>用户名：
+        <input type="text" name="username" id="username">
+      </div>
+      <div>密码：
+        <input type="text" name="password" id="password">
+      </div>
+      <input type="submit" value="修改">
+    </form>
+</body>
+<script>
+  let id = $('#inphide').val();
+  loadDetial();
+  function loadDetial(){
+    $.ajax({
+      url:'/user?id='+id,
+      success:res => {
+        $('#username').val(res.user.username);
+        $('#password').val(res.user.password);
+        $('#inphide').val(id);
+      }
+    })
+  }
+  console.log($('#inphide').val())
+  $('#editForm').submit(function(event){
+    let username = $('#username').val();
+    let password = $('#password').val();
+    event.preventDefault();//阻止默认行为
+    $.ajax({
+      url:'/doedit',
+      type:'post',
+      data:{
+        username:username,
+        password:password,
+        id:$('#inphide').val()
+      },
+      success:(res)=>{
+        if(res.code == 200){
+          alert('修改成功');
+          location.href = '/index';
+        }
+      }
+    })
+  })
+</script>
+</html>
